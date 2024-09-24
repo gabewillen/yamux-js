@@ -1,13 +1,15 @@
 {
     "compilerOptions": {
-        "declaration": true,
-        "esModuleInterop": true,
-        "experimentalDecorators": true,
-        "lib": ["es2017"],
+        "target": "es2018",
         "module": "commonjs",
-        "outDir": "lib",
+        "lib": ["es2018", "dom"],
         "strict": true,
-        "target": "es2017"
+        "esModuleInterop": true,
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "skipLibCheck": true
     },
     "include": ["src/*"],
     "exclude": ["node_modules", "test"]

@@ -1,4 +1,4 @@
-import {Duplex} from 'stream';
+import {Duplex} from 'readable-stream';
 
 import {STREAM_STATES, FLAGS, TYPES, initialStreamWindow, VERSION, ERRORS} from './constants';
 import {Header} from './header';
