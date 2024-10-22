@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Session = void 0;
-const stream_1 = require("stream");
+const readable_stream_1 = require("readable-stream");
 const constants_1 = require("./constants");
 const header_1 = require("./header");
 const mux_1 = require("./mux");
-const stream_2 = require("./stream");
-class Session extends stream_1.Transform {
+const stream_1 = require("./stream");
+class Session extends readable_stream_1.Transform {
     constructor(client, config, onStream) {
         super();
         // localGoAway indicates that we should stop accepting futher connections
@@ -151,7 +151,7 @@ class Session extends stream_1.Transform {
             return this.send(hdr);
         }
         // Allocate a new stream
-        const stream = new stream_2.Stream(this, streamID, constants_1.STREAM_STATES.SYNReceived);
+        const stream = new stream_1.Stream(this, streamID, constants_1.STREAM_STATES.SYNReceived);
         // Check if stream already exists
         if (this.streams.has(streamID)) {
             this.config.logger('[ERR] yamux: duplicate stream declared');
@@ -178,7 +178,7 @@ class Session extends stream_1.Transform {
     }
     // Open is used to create a new stream
     open() {
-        const stream = new stream_2.Stream(this, this.nextStreamID, constants_1.STREAM_STATES.Init);
+        const stream = new stream_1.Stream(this, this.nextStreamID, constants_1.STREAM_STATES.Init);
         this.nextStreamID += 2;
         if (this.isClosed()) {
             this.emit('error', constants_1.ERRORS.errSessionShutdown);

@@ -1,9 +1,11 @@
-import {Duplex, Transform, TransformCallback} from 'stream';
+import {Duplex, Transform} from 'readable-stream';
 
 import {FLAGS, STREAM_STATES, TYPES, VERSION, GO_AWAY_ERRORS, ERRORS} from './constants';
 import {Header} from './header';
 import {Config, defaultConfig} from './mux';
 import {Stream} from './stream';
+
+export type TransformCallback = (error?: Error | null, data?: any) => void;
 
 export class Session extends Transform {
     // localGoAway indicates that we should stop accepting futher connections

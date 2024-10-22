@@ -11,6 +11,7 @@ var TYPES;
 })(TYPES = exports.TYPES || (exports.TYPES = {}));
 var FLAGS;
 (function (FLAGS) {
+    FLAGS[FLAGS["_"] = 0] = "_";
     FLAGS[FLAGS["SYN"] = 1] = "SYN";
     FLAGS[FLAGS["ACK"] = 2] = "ACK";
     FLAGS[FLAGS["FIN"] = 4] = "FIN";

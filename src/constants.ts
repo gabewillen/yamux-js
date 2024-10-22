@@ -8,6 +8,7 @@ export enum TYPES {
 }
 
 export enum FLAGS {
+    _ = 0x0,
     SYN = 0x1,
     ACK = 0x2,
     FIN = 0x4,
