@@ -19,13 +19,13 @@
         "typescript": "^4.0.3"
     },
     "scripts": {
-        "build": "yarn clean && tsc",
+        "build": "npm run clean && npx tsc",
         "clean": "rm -rf lib",
-        "format": "yarn prettier --write src",
-        "format:check": "yarn prettier --check src",
-        "prepare": "yarn format:check && yarn build",
+        "format": "npx prettier --write src",
+        "format:check": "npx prettier --check src",
+        "prepare": "npm run format:check && npm run build",
         "test": "mocha --require ts-node/register --color --recursive --extension ts",
-        "test:watch": "yarn test --watch"
+        "test:watch": "npm test --watch"
     },
     "keywords": [
         "yamux",
