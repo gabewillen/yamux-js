@@ -39,7 +39,7 @@
         "interleave"
     ],
     "files": [
-        "lib"
+        "dist"
     ],
     "dependencies": {
         "readable-stream": "^4.5.2",
