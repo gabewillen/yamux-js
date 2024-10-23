@@ -1,8 +1,9 @@
 /// <reference types="node" />
-import { Duplex, Transform, TransformCallback } from 'stream';
+import { Duplex, Transform } from 'readable-stream';
 import { Header } from './header';
 import { Config, defaultConfig } from './mux';
 import { Stream } from './stream';
+export declare type TransformCallback = (error?: Error | null, data?: any) => void;
 export declare class Session extends Transform {
     private localGoaway;
     private remoteGoAway;

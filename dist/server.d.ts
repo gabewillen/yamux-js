@@ -1,5 +1,4 @@
-/// <reference types="node" />
-import { Duplex } from 'stream';
+import { Duplex } from 'readable-stream';
 import { Config } from './mux';
 import { Session } from './session';
 export declare class Server extends Session {

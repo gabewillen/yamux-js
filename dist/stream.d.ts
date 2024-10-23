@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { Duplex } from 'stream';
+import { Duplex } from 'readable-stream';
 import { STREAM_STATES } from './constants';
 import { Header } from './header';
 import { Session } from './session';

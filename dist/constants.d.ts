@@ -6,6 +6,7 @@ export declare enum TYPES {
     GoAway = 3
 }
 export declare enum FLAGS {
+    _ = 0,
     SYN = 1,
     ACK = 2,
     FIN = 4,

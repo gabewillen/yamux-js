@@ -12,5 +12,8 @@ export declare const defaultConfig: {
     keepAliveInterval: number;
     connectionWriteTimeout: number;
     maxStreamWindowSize: number;
-    logger: (message?: any, ...optionalParams: any[]) => void;
+    logger: {
+        (...data: any[]): void;
+        (message?: any, ...optionalParams: any[]): void;
+    };
 };
