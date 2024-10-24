@@ -1,16 +1,17 @@
-"use strict";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __commonJS = (cb, mod) => function __require() {
+var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
+  get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
+}) : x)(function(x) {
+  if (typeof require !== "undefined") return require.apply(this, arguments);
+  throw Error('Dynamic require of "' + x + '" is not supported');
+});
+var __commonJS = (cb, mod) => function __require2() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
-};
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
 };
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
@@ -28,13 +29,12 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // node_modules/readable-stream/lib/ours/primordials.js
 var require_primordials = __commonJS({
-  "node_modules/readable-stream/lib/ours/primordials.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/ours/primordials.js"(exports, module) {
     "use strict";
-    module2.exports = {
+    module.exports = {
       ArrayIsArray(self) {
         return Array.isArray(self);
       },
@@ -137,9 +137,9 @@ var require_primordials = __commonJS({
 
 // node_modules/event-target-shim/dist/event-target-shim.js
 var require_event_target_shim = __commonJS({
-  "node_modules/event-target-shim/dist/event-target-shim.js"(exports2, module2) {
+  "node_modules/event-target-shim/dist/event-target-shim.js"(exports, module) {
     "use strict";
-    Object.defineProperty(exports2, "__esModule", { value: true });
+    Object.defineProperty(exports, "__esModule", { value: true });
     var privateData = /* @__PURE__ */ new WeakMap();
     var wrappers = /* @__PURE__ */ new WeakMap();
     function pd(event) {
@@ -698,20 +698,20 @@ var require_event_target_shim = __commonJS({
     if (typeof window !== "undefined" && typeof window.EventTarget !== "undefined") {
       Object.setPrototypeOf(EventTarget.prototype, window.EventTarget.prototype);
     }
-    exports2.defineEventAttribute = defineEventAttribute;
-    exports2.EventTarget = EventTarget;
-    exports2.default = EventTarget;
-    module2.exports = EventTarget;
-    module2.exports.EventTarget = module2.exports["default"] = EventTarget;
-    module2.exports.defineEventAttribute = defineEventAttribute;
+    exports.defineEventAttribute = defineEventAttribute;
+    exports.EventTarget = EventTarget;
+    exports.default = EventTarget;
+    module.exports = EventTarget;
+    module.exports.EventTarget = module.exports["default"] = EventTarget;
+    module.exports.defineEventAttribute = defineEventAttribute;
   }
 });
 
 // node_modules/abort-controller/dist/abort-controller.js
 var require_abort_controller = __commonJS({
-  "node_modules/abort-controller/dist/abort-controller.js"(exports2, module2) {
+  "node_modules/abort-controller/dist/abort-controller.js"(exports, module) {
     "use strict";
-    Object.defineProperty(exports2, "__esModule", { value: true });
+    Object.defineProperty(exports, "__esModule", { value: true });
     var eventTargetShim = require_event_target_shim();
     var AbortSignal = class extends eventTargetShim.EventTarget {
       /**
@@ -794,20 +794,20 @@ var require_abort_controller = __commonJS({
         value: "AbortController"
       });
     }
-    exports2.AbortController = AbortController;
-    exports2.AbortSignal = AbortSignal;
-    exports2.default = AbortController;
-    module2.exports = AbortController;
-    module2.exports.AbortController = module2.exports["default"] = AbortController;
-    module2.exports.AbortSignal = AbortSignal;
+    exports.AbortController = AbortController;
+    exports.AbortSignal = AbortSignal;
+    exports.default = AbortController;
+    module.exports = AbortController;
+    module.exports.AbortController = module.exports["default"] = AbortController;
+    module.exports.AbortSignal = AbortSignal;
   }
 });
 
 // node_modules/readable-stream/lib/ours/util.js
 var require_util = __commonJS({
-  "node_modules/readable-stream/lib/ours/util.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/ours/util.js"(exports, module) {
     "use strict";
-    var bufferModule = require("buffer");
+    var bufferModule = __require("buffer");
     var { kResistStopPropagation, SymbolDispose } = require_primordials();
     var AbortSignal = globalThis.AbortSignal || require_abort_controller().AbortSignal;
     var AbortController = globalThis.AbortController || require_abort_controller().AbortController;
@@ -842,7 +842,7 @@ var require_util = __commonJS({
         this.errors = errors;
       }
     };
-    module2.exports = {
+    module.exports = {
       AggregateError,
       kEmptyObject: Object.freeze({}),
       once(callback) {
@@ -936,7 +936,7 @@ var require_util = __commonJS({
       deprecate(fn, message) {
         return fn;
       },
-      addAbortListener: require("events").addAbortListener || function addAbortListener(signal, listener) {
+      addAbortListener: __require("events").addAbortListener || function addAbortListener(signal, listener) {
         if (signal === void 0) {
           throw new ERR_INVALID_ARG_TYPE("signal", "AbortSignal", signal);
         }
@@ -987,13 +987,13 @@ var require_util = __commonJS({
         return ac.signal;
       }
     };
-    module2.exports.promisify.custom = Symbol.for("nodejs.util.promisify.custom");
+    module.exports.promisify.custom = Symbol.for("nodejs.util.promisify.custom");
   }
 });
 
 // node_modules/readable-stream/lib/ours/errors.js
 var require_errors = __commonJS({
-  "node_modules/readable-stream/lib/ours/errors.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/ours/errors.js"(exports, module) {
     "use strict";
     var { format, inspect, AggregateError: CustomAggregateError } = require_util();
     var AggregateError = globalThis.AggregateError || CustomAggregateError;
@@ -1298,7 +1298,7 @@ var require_errors = __commonJS({
     E("ERR_STREAM_UNSHIFT_AFTER_END_EVENT", "stream.unshift() after end event", Error);
     E("ERR_STREAM_WRITE_AFTER_END", "write after end", Error);
     E("ERR_UNKNOWN_ENCODING", "Unknown encoding: %s", TypeError);
-    module2.exports = {
+    module.exports = {
       AbortError,
       aggregateTwoErrors: hideStackFrames(aggregateTwoErrors),
       hideStackFrames,
@@ -1309,7 +1309,7 @@ var require_errors = __commonJS({
 
 // node_modules/readable-stream/lib/internal/validators.js
 var require_validators = __commonJS({
-  "node_modules/readable-stream/lib/internal/validators.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/internal/validators.js"(exports, module) {
     "use strict";
     var {
       ArrayIsArray,
@@ -1540,7 +1540,7 @@ var require_validators = __commonJS({
         'must be an array or string of format "</styles.css>; rel=preload; as=style"'
       );
     }
-    module2.exports = {
+    module.exports = {
       isInt32,
       isUint32,
       parseFileMode,
@@ -1573,15 +1573,15 @@ var require_validators = __commonJS({
 
 // node_modules/process/index.js
 var require_process = __commonJS({
-  "node_modules/process/index.js"(exports2, module2) {
+  "node_modules/process/index.js"(exports, module) {
     "use strict";
-    module2.exports = global.process;
+    module.exports = global.process;
   }
 });
 
 // node_modules/readable-stream/lib/internal/streams/utils.js
 var require_utils = __commonJS({
-  "node_modules/readable-stream/lib/internal/streams/utils.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/internal/streams/utils.js"(exports, module) {
     "use strict";
     var { SymbolAsyncIterator, SymbolIterator, SymbolFor } = require_primordials();
     var kIsDestroyed = SymbolFor("nodejs.stream.destroyed");
@@ -1751,7 +1751,7 @@ var require_utils = __commonJS({
       var _ref, _ref2, _ref3, _ref4, _ref5, _stream$kIsErrored, _stream$_readableStat3, _stream$_writableStat3, _stream$_readableStat4, _stream$_writableStat4;
       return !!(stream && ((_ref = (_ref2 = (_ref3 = (_ref4 = (_ref5 = (_stream$kIsErrored = stream[kIsErrored]) !== null && _stream$kIsErrored !== void 0 ? _stream$kIsErrored : stream.readableErrored) !== null && _ref5 !== void 0 ? _ref5 : stream.writableErrored) !== null && _ref4 !== void 0 ? _ref4 : (_stream$_readableStat3 = stream._readableState) === null || _stream$_readableStat3 === void 0 ? void 0 : _stream$_readableStat3.errorEmitted) !== null && _ref3 !== void 0 ? _ref3 : (_stream$_writableStat3 = stream._writableState) === null || _stream$_writableStat3 === void 0 ? void 0 : _stream$_writableStat3.errorEmitted) !== null && _ref2 !== void 0 ? _ref2 : (_stream$_readableStat4 = stream._readableState) === null || _stream$_readableStat4 === void 0 ? void 0 : _stream$_readableStat4.errored) !== null && _ref !== void 0 ? _ref : (_stream$_writableStat4 = stream._writableState) === null || _stream$_writableStat4 === void 0 ? void 0 : _stream$_writableStat4.errored));
     }
-    module2.exports = {
+    module.exports = {
       isDestroyed,
       kIsDestroyed,
       isDisturbed,
@@ -1790,7 +1790,7 @@ var require_utils = __commonJS({
 
 // node_modules/readable-stream/lib/internal/streams/end-of-stream.js
 var require_end_of_stream = __commonJS({
-  "node_modules/readable-stream/lib/internal/streams/end-of-stream.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/internal/streams/end-of-stream.js"(exports, module) {
     "use strict";
     var process2 = require_process();
     var { AbortError, codes } = require_errors();
@@ -2035,14 +2035,14 @@ var require_end_of_stream = __commonJS({
         });
       });
     }
-    module2.exports = eos;
-    module2.exports.finished = finished;
+    module.exports = eos;
+    module.exports.finished = finished;
   }
 });
 
 // node_modules/readable-stream/lib/internal/streams/destroy.js
 var require_destroy = __commonJS({
-  "node_modules/readable-stream/lib/internal/streams/destroy.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/internal/streams/destroy.js"(exports, module) {
     "use strict";
     var process2 = require_process();
     var {
@@ -2295,7 +2295,7 @@ var require_destroy = __commonJS({
         stream[kIsDestroyed] = true;
       }
     }
-    module2.exports = {
+    module.exports = {
       construct,
       destroyer,
       destroy,
@@ -2307,10 +2307,10 @@ var require_destroy = __commonJS({
 
 // node_modules/readable-stream/lib/internal/streams/legacy.js
 var require_legacy = __commonJS({
-  "node_modules/readable-stream/lib/internal/streams/legacy.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/internal/streams/legacy.js"(exports, module) {
     "use strict";
     var { ArrayIsArray, ObjectSetPrototypeOf } = require_primordials();
-    var { EventEmitter: EE } = require("events");
+    var { EventEmitter: EE } = __require("events");
     function Stream2(opts) {
       EE.call(this, opts);
     }
@@ -2376,7 +2376,7 @@ var require_legacy = __commonJS({
       else if (ArrayIsArray(emitter._events[event])) emitter._events[event].unshift(fn);
       else emitter._events[event] = [fn, emitter._events[event]];
     }
-    module2.exports = {
+    module.exports = {
       Stream: Stream2,
       prependListener
     };
@@ -2385,7 +2385,7 @@ var require_legacy = __commonJS({
 
 // node_modules/readable-stream/lib/internal/streams/add-abort-signal.js
 var require_add_abort_signal = __commonJS({
-  "node_modules/readable-stream/lib/internal/streams/add-abort-signal.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/internal/streams/add-abort-signal.js"(exports, module) {
     "use strict";
     var { SymbolDispose } = require_primordials();
     var { AbortError, codes } = require_errors();
@@ -2398,14 +2398,14 @@ var require_add_abort_signal = __commonJS({
         throw new ERR_INVALID_ARG_TYPE2(name, "AbortSignal", signal);
       }
     };
-    module2.exports.addAbortSignal = function addAbortSignal(signal, stream) {
+    module.exports.addAbortSignal = function addAbortSignal(signal, stream) {
       validateAbortSignal(signal, "signal");
       if (!isNodeStream(stream) && !isWebStream(stream)) {
         throw new ERR_INVALID_ARG_TYPE2("stream", ["ReadableStream", "WritableStream", "Stream"], stream);
       }
-      return module2.exports.addAbortSignalNoValidate(signal, stream);
+      return module.exports.addAbortSignalNoValidate(signal, stream);
     };
-    module2.exports.addAbortSignalNoValidate = function(signal, stream) {
+    module.exports.addAbortSignalNoValidate = function(signal, stream) {
       if (typeof signal !== "object" || !("aborted" in signal)) {
         return stream;
       }
@@ -2436,12 +2436,12 @@ var require_add_abort_signal = __commonJS({
 
 // node_modules/readable-stream/lib/internal/streams/buffer_list.js
 var require_buffer_list = __commonJS({
-  "node_modules/readable-stream/lib/internal/streams/buffer_list.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/internal/streams/buffer_list.js"(exports, module) {
     "use strict";
     var { StringPrototypeSlice, SymbolIterator, TypedArrayPrototypeSet, Uint8Array: Uint8Array2 } = require_primordials();
-    var { Buffer: Buffer2 } = require("buffer");
+    var { Buffer: Buffer2 } = __require("buffer");
     var { inspect } = require_util();
-    module2.exports = class BufferList {
+    module.exports = class BufferList {
       constructor() {
         this.head = null;
         this.tail = null;
@@ -2591,7 +2591,7 @@ var require_buffer_list = __commonJS({
 
 // node_modules/readable-stream/lib/internal/streams/state.js
 var require_state = __commonJS({
-  "node_modules/readable-stream/lib/internal/streams/state.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/internal/streams/state.js"(exports, module) {
     "use strict";
     var { MathFloor, NumberIsInteger } = require_primordials();
     var { validateInteger } = require_validators();
@@ -2623,7 +2623,7 @@ var require_state = __commonJS({
       }
       return getDefaultHighWaterMark(state.objectMode);
     }
-    module2.exports = {
+    module.exports = {
       getHighWaterMark,
       getDefaultHighWaterMark,
       setDefaultHighWaterMark
@@ -2633,11 +2633,11 @@ var require_state = __commonJS({
 
 // node_modules/readable-stream/lib/internal/streams/from.js
 var require_from = __commonJS({
-  "node_modules/readable-stream/lib/internal/streams/from.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/internal/streams/from.js"(exports, module) {
     "use strict";
     var process2 = require_process();
     var { PromisePrototypeThen, SymbolAsyncIterator, SymbolIterator } = require_primordials();
-    var { Buffer: Buffer2 } = require("buffer");
+    var { Buffer: Buffer2 } = __require("buffer");
     var { ERR_INVALID_ARG_TYPE: ERR_INVALID_ARG_TYPE2, ERR_STREAM_NULL_VALUES } = require_errors().codes;
     function from(Readable, iterable, opts) {
       let iterator;
@@ -2722,13 +2722,13 @@ var require_from = __commonJS({
       }
       return readable;
     }
-    module2.exports = from;
+    module.exports = from;
   }
 });
 
 // node_modules/readable-stream/lib/internal/streams/readable.js
 var require_readable = __commonJS({
-  "node_modules/readable-stream/lib/internal/streams/readable.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/internal/streams/readable.js"(exports, module) {
     "use strict";
     var process2 = require_process();
     var {
@@ -2745,11 +2745,11 @@ var require_readable = __commonJS({
       SymbolAsyncIterator,
       Symbol: Symbol2
     } = require_primordials();
-    module2.exports = Readable;
+    module.exports = Readable;
     Readable.ReadableState = ReadableState;
-    var { EventEmitter: EE } = require("events");
+    var { EventEmitter: EE } = __require("events");
     var { Stream: Stream2, prependListener } = require_legacy();
-    var { Buffer: Buffer2 } = require("buffer");
+    var { Buffer: Buffer2 } = __require("buffer");
     var { addAbortSignal } = require_add_abort_signal();
     var eos = require_end_of_stream();
     var debug = require_util().debuglog("stream", (fn) => {
@@ -2771,7 +2771,7 @@ var require_readable = __commonJS({
     } = require_errors();
     var { validateObject } = require_validators();
     var kPaused = Symbol2("kPaused");
-    var { StringDecoder } = require("string_decoder");
+    var { StringDecoder } = __require("string_decoder");
     var from = require_from();
     ObjectSetPrototypeOf(Readable.prototype, Stream2.prototype);
     ObjectSetPrototypeOf(Readable, Stream2);
@@ -3694,7 +3694,7 @@ var require_readable = __commonJS({
 
 // node_modules/readable-stream/lib/internal/streams/writable.js
 var require_writable = __commonJS({
-  "node_modules/readable-stream/lib/internal/streams/writable.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/internal/streams/writable.js"(exports, module) {
     "use strict";
     var process2 = require_process();
     var {
@@ -3708,11 +3708,11 @@ var require_writable = __commonJS({
       Symbol: Symbol2,
       SymbolHasInstance
     } = require_primordials();
-    module2.exports = Writable;
+    module.exports = Writable;
     Writable.WritableState = WritableState;
-    var { EventEmitter: EE } = require("events");
+    var { EventEmitter: EE } = __require("events");
     var Stream2 = require_legacy().Stream;
-    var { Buffer: Buffer2 } = require("buffer");
+    var { Buffer: Buffer2 } = __require("buffer");
     var destroyImpl = require_destroy();
     var { addAbortSignal } = require_add_abort_signal();
     var { getHighWaterMark, getDefaultHighWaterMark } = require_state();
@@ -4315,10 +4315,10 @@ var require_writable = __commonJS({
 
 // node_modules/readable-stream/lib/internal/streams/duplexify.js
 var require_duplexify = __commonJS({
-  "node_modules/readable-stream/lib/internal/streams/duplexify.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/internal/streams/duplexify.js"(exports, module) {
     "use strict";
     var process2 = require_process();
-    var bufferModule = require("buffer");
+    var bufferModule = __require("buffer");
     var {
       isReadable,
       isWritable,
@@ -4365,7 +4365,7 @@ var require_duplexify = __commonJS({
         }
       }
     };
-    module2.exports = function duplexify(body, name) {
+    module.exports = function duplexify(body, name) {
       if (isDuplexNodeStream(body)) {
         return body;
       }
@@ -4663,7 +4663,7 @@ var require_duplexify = __commonJS({
 
 // node_modules/readable-stream/lib/internal/streams/duplex.js
 var require_duplex = __commonJS({
-  "node_modules/readable-stream/lib/internal/streams/duplex.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/internal/streams/duplex.js"(exports, module) {
     "use strict";
     var {
       ObjectDefineProperties,
@@ -4671,7 +4671,7 @@ var require_duplex = __commonJS({
       ObjectKeys,
       ObjectSetPrototypeOf
     } = require_primordials();
-    module2.exports = Duplex3;
+    module.exports = Duplex3;
     var Readable = require_readable();
     var Writable = require_writable();
     ObjectSetPrototypeOf(Duplex3.prototype, Readable.prototype);
@@ -4780,10 +4780,10 @@ var require_duplex = __commonJS({
 
 // node_modules/readable-stream/lib/internal/streams/transform.js
 var require_transform = __commonJS({
-  "node_modules/readable-stream/lib/internal/streams/transform.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/internal/streams/transform.js"(exports, module) {
     "use strict";
     var { ObjectSetPrototypeOf, Symbol: Symbol2 } = require_primordials();
-    module2.exports = Transform2;
+    module.exports = Transform2;
     var { ERR_METHOD_NOT_IMPLEMENTED } = require_errors().codes;
     var Duplex3 = require_duplex();
     var { getHighWaterMark } = require_state();
@@ -4882,10 +4882,10 @@ var require_transform = __commonJS({
 
 // node_modules/readable-stream/lib/internal/streams/passthrough.js
 var require_passthrough = __commonJS({
-  "node_modules/readable-stream/lib/internal/streams/passthrough.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/internal/streams/passthrough.js"(exports, module) {
     "use strict";
     var { ObjectSetPrototypeOf } = require_primordials();
-    module2.exports = PassThrough;
+    module.exports = PassThrough;
     var Transform2 = require_transform();
     ObjectSetPrototypeOf(PassThrough.prototype, Transform2.prototype);
     ObjectSetPrototypeOf(PassThrough, Transform2);
@@ -4901,7 +4901,7 @@ var require_passthrough = __commonJS({
 
 // node_modules/readable-stream/lib/internal/streams/pipeline.js
 var require_pipeline = __commonJS({
-  "node_modules/readable-stream/lib/internal/streams/pipeline.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/internal/streams/pipeline.js"(exports, module) {
     "use strict";
     var process2 = require_process();
     var { ArrayIsArray, Promise: Promise2, SymbolAsyncIterator, SymbolDispose } = require_primordials();
@@ -5321,7 +5321,7 @@ var require_pipeline = __commonJS({
         finish
       );
     }
-    module2.exports = {
+    module.exports = {
       pipelineImpl,
       pipeline
     };
@@ -5330,7 +5330,7 @@ var require_pipeline = __commonJS({
 
 // node_modules/readable-stream/lib/internal/streams/compose.js
 var require_compose = __commonJS({
-  "node_modules/readable-stream/lib/internal/streams/compose.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/internal/streams/compose.js"(exports, module) {
     "use strict";
     var { pipeline } = require_pipeline();
     var Duplex3 = require_duplex();
@@ -5349,7 +5349,7 @@ var require_compose = __commonJS({
       codes: { ERR_INVALID_ARG_VALUE, ERR_MISSING_ARGS }
     } = require_errors();
     var eos = require_end_of_stream();
-    module2.exports = function compose(...streams) {
+    module.exports = function compose(...streams) {
       if (streams.length === 0) {
         throw new ERR_MISSING_ARGS("streams");
       }
@@ -5523,7 +5523,7 @@ var require_compose = __commonJS({
 
 // node_modules/readable-stream/lib/internal/streams/operators.js
 var require_operators = __commonJS({
-  "node_modules/readable-stream/lib/internal/streams/operators.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/internal/streams/operators.js"(exports, module) {
     "use strict";
     var AbortController = globalThis.AbortController || require_abort_controller().AbortController;
     var {
@@ -5906,7 +5906,7 @@ var require_operators = __commonJS({
         }
       }.call(this);
     }
-    module2.exports.streamReturningOperators = {
+    module.exports.streamReturningOperators = {
       asIndexedPairs: deprecate(asIndexedPairs, "readable.asIndexedPairs will be removed in a future version."),
       drop,
       filter,
@@ -5915,7 +5915,7 @@ var require_operators = __commonJS({
       take,
       compose
     };
-    module2.exports.promiseReturningOperators = {
+    module.exports.promiseReturningOperators = {
       every,
       forEach,
       reduce,
@@ -5928,7 +5928,7 @@ var require_operators = __commonJS({
 
 // node_modules/readable-stream/lib/stream/promises.js
 var require_promises = __commonJS({
-  "node_modules/readable-stream/lib/stream/promises.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/stream/promises.js"(exports, module) {
     "use strict";
     var { ArrayPrototypePop, Promise: Promise2 } = require_primordials();
     var { isIterable, isNodeStream, isWebStream } = require_utils();
@@ -5961,7 +5961,7 @@ var require_promises = __commonJS({
         );
       });
     }
-    module2.exports = {
+    module.exports = {
       finished,
       pipeline
     };
@@ -5970,9 +5970,9 @@ var require_promises = __commonJS({
 
 // node_modules/readable-stream/lib/stream.js
 var require_stream = __commonJS({
-  "node_modules/readable-stream/lib/stream.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/stream.js"(exports, module) {
     "use strict";
-    var { Buffer: Buffer2 } = require("buffer");
+    var { Buffer: Buffer2 } = __require("buffer");
     var { ObjectDefineProperty, ObjectKeys, ReflectApply } = require_primordials();
     var {
       promisify: { custom: customPromisify }
@@ -5988,7 +5988,7 @@ var require_stream = __commonJS({
     var eos = require_end_of_stream();
     var promises = require_promises();
     var utils = require_utils();
-    var Stream2 = module2.exports = require_legacy().Stream;
+    var Stream2 = module.exports = require_legacy().Stream;
     Stream2.isDestroyed = utils.isDestroyed;
     Stream2.isDisturbed = utils.isDisturbed;
     Stream2.isErrored = utils.isErrored;
@@ -6093,26 +6093,26 @@ var require_stream = __commonJS({
 
 // node_modules/readable-stream/lib/ours/index.js
 var require_ours = __commonJS({
-  "node_modules/readable-stream/lib/ours/index.js"(exports2, module2) {
+  "node_modules/readable-stream/lib/ours/index.js"(exports, module) {
     "use strict";
-    var Stream2 = require("stream");
+    var Stream2 = __require("stream");
     if (Stream2 && process.env.READABLE_STREAM === "disable") {
       const promises = Stream2.promises;
-      module2.exports._uint8ArrayToBuffer = Stream2._uint8ArrayToBuffer;
-      module2.exports._isUint8Array = Stream2._isUint8Array;
-      module2.exports.isDisturbed = Stream2.isDisturbed;
-      module2.exports.isErrored = Stream2.isErrored;
-      module2.exports.isReadable = Stream2.isReadable;
-      module2.exports.Readable = Stream2.Readable;
-      module2.exports.Writable = Stream2.Writable;
-      module2.exports.Duplex = Stream2.Duplex;
-      module2.exports.Transform = Stream2.Transform;
-      module2.exports.PassThrough = Stream2.PassThrough;
-      module2.exports.addAbortSignal = Stream2.addAbortSignal;
-      module2.exports.finished = Stream2.finished;
-      module2.exports.destroy = Stream2.destroy;
-      module2.exports.pipeline = Stream2.pipeline;
-      module2.exports.compose = Stream2.compose;
+      module.exports._uint8ArrayToBuffer = Stream2._uint8ArrayToBuffer;
+      module.exports._isUint8Array = Stream2._isUint8Array;
+      module.exports.isDisturbed = Stream2.isDisturbed;
+      module.exports.isErrored = Stream2.isErrored;
+      module.exports.isReadable = Stream2.isReadable;
+      module.exports.Readable = Stream2.Readable;
+      module.exports.Writable = Stream2.Writable;
+      module.exports.Duplex = Stream2.Duplex;
+      module.exports.Transform = Stream2.Transform;
+      module.exports.PassThrough = Stream2.PassThrough;
+      module.exports.addAbortSignal = Stream2.addAbortSignal;
+      module.exports.finished = Stream2.finished;
+      module.exports.destroy = Stream2.destroy;
+      module.exports.pipeline = Stream2.pipeline;
+      module.exports.compose = Stream2.compose;
       Object.defineProperty(Stream2, "promises", {
         configurable: true,
         enumerable: true,
@@ -6120,28 +6120,28 @@ var require_ours = __commonJS({
           return promises;
         }
       });
-      module2.exports.Stream = Stream2.Stream;
+      module.exports.Stream = Stream2.Stream;
     } else {
       const CustomStream = require_stream();
       const promises = require_promises();
       const originalDestroy = CustomStream.Readable.destroy;
-      module2.exports = CustomStream.Readable;
-      module2.exports._uint8ArrayToBuffer = CustomStream._uint8ArrayToBuffer;
-      module2.exports._isUint8Array = CustomStream._isUint8Array;
-      module2.exports.isDisturbed = CustomStream.isDisturbed;
-      module2.exports.isErrored = CustomStream.isErrored;
-      module2.exports.isReadable = CustomStream.isReadable;
-      module2.exports.Readable = CustomStream.Readable;
-      module2.exports.Writable = CustomStream.Writable;
-      module2.exports.Duplex = CustomStream.Duplex;
-      module2.exports.Transform = CustomStream.Transform;
-      module2.exports.PassThrough = CustomStream.PassThrough;
-      module2.exports.addAbortSignal = CustomStream.addAbortSignal;
-      module2.exports.finished = CustomStream.finished;
-      module2.exports.destroy = CustomStream.destroy;
-      module2.exports.destroy = originalDestroy;
-      module2.exports.pipeline = CustomStream.pipeline;
-      module2.exports.compose = CustomStream.compose;
+      module.exports = CustomStream.Readable;
+      module.exports._uint8ArrayToBuffer = CustomStream._uint8ArrayToBuffer;
+      module.exports._isUint8Array = CustomStream._isUint8Array;
+      module.exports.isDisturbed = CustomStream.isDisturbed;
+      module.exports.isErrored = CustomStream.isErrored;
+      module.exports.isReadable = CustomStream.isReadable;
+      module.exports.Readable = CustomStream.Readable;
+      module.exports.Writable = CustomStream.Writable;
+      module.exports.Duplex = CustomStream.Duplex;
+      module.exports.Transform = CustomStream.Transform;
+      module.exports.PassThrough = CustomStream.PassThrough;
+      module.exports.addAbortSignal = CustomStream.addAbortSignal;
+      module.exports.finished = CustomStream.finished;
+      module.exports.destroy = CustomStream.destroy;
+      module.exports.destroy = originalDestroy;
+      module.exports.pipeline = CustomStream.pipeline;
+      module.exports.compose = CustomStream.compose;
       Object.defineProperty(CustomStream, "promises", {
         configurable: true,
         enumerable: true,
@@ -6149,21 +6149,11 @@ var require_ours = __commonJS({
           return promises;
         }
       });
-      module2.exports.Stream = CustomStream.Stream;
+      module.exports.Stream = CustomStream.Stream;
     }
-    module2.exports.default = module2.exports;
+    module.exports.default = module.exports;
   }
 });
-
-// src/index.ts
-var src_exports = {};
-__export(src_exports, {
-  Client: () => Client,
-  Server: () => Server,
-  Session: () => Session,
-  Stream: () => Stream
-});
-module.exports = __toCommonJS(src_exports);
 
 // src/session.ts
 var import_readable_stream2 = __toESM(require_ours());
@@ -6689,10 +6679,9 @@ var Server = class extends Session {
     super(false, config, onStream);
   }
 };
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
+export {
   Client,
   Server,
   Session,
   Stream
-});
+};

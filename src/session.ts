@@ -1,5 +1,4 @@
 import {Duplex, Transform} from 'readable-stream';
-
 import {FLAGS, STREAM_STATES, TYPES, VERSION, GO_AWAY_ERRORS, ERRORS} from './constants';
 import {Header} from './header';
 import {Config, defaultConfig} from './mux';
@@ -21,9 +20,9 @@ export class Session extends Transform {
     public config: typeof defaultConfig;
 
     // pings is used to track inflight pings
-    private pings: Map<number, NodeJS.Timeout> = new Map();
+    private pings: Map<number, number | NodeJS.Timeout> = new Map();
     private pingID = 0;
-    private pingTimer?: NodeJS.Timeout;
+    private pingTimer?: number | NodeJS.Timeout;
 
     // streams maps a stream id to a stream
     private streams: Map<number, Stream> = new Map();
@@ -56,7 +55,7 @@ export class Session extends Transform {
     }
 
     _transform(chunk: any, encoding: BufferEncoding, cb: TransformCallback): void {
-        let packet = Buffer.alloc(chunk.length, chunk);
+        let packet = new Uint8Array(chunk);
 
         if (!this.currentHeader) {
             if (packet.length >= Header.LENGTH) {
@@ -117,7 +116,7 @@ export class Session extends Transform {
         return cb();
     }
 
-    private handleStreamMessage(currentHeader: Header, fullPacket: Buffer, encoding: BufferEncoding) {
+    private handleStreamMessage(currentHeader: Header, fullPacket: Uint8Array, encoding: BufferEncoding) {
         // Check for a new stream creation
         if (currentHeader.flags == FLAGS.SYN) {
             return this.incomingStream(currentHeader.streamID);
@@ -188,7 +187,6 @@ export class Session extends Transform {
             const hdr = new Header(VERSION, TYPES.WindowUpdate, FLAGS.RST, streamID, 0);
             return this.send(hdr);
         }
-
         // Allocate a new stream
         const stream = new Stream(this, streamID, STREAM_STATES.SYNReceived);
 
@@ -223,8 +221,9 @@ export class Session extends Transform {
 
     // Open is used to create a new stream
     public open(): Stream {
-        const stream = new Stream(this, this.nextStreamID, STREAM_STATES.Init);
+        const id = this.nextStreamID;
         this.nextStreamID += 2;
+        const stream = new Stream(this, id, STREAM_STATES.Init);
 
         if (this.isClosed()) {
             this.emit('error', ERRORS.errSessionShutdown);
@@ -235,7 +234,7 @@ export class Session extends Transform {
             return stream;
         }
 
-        this.streams.set(stream.ID(), stream);
+        this.streams.set(id, stream);
         stream.sendWindowUpdate();
 
         return stream;
@@ -267,7 +266,7 @@ export class Session extends Transform {
 
         // Wait for a response
         const responseTimeout = setTimeout(() => {
-            clearTimeout(responseTimeout); // Ignore it if a response comes later.
+            clearTimeout(responseTimeout);
             this.emit('error', ERRORS.errKeepAliveTimeout);
             this.close(ERRORS.errTimeout);
         }, this.config.connectionWriteTimeout * 1000);
@@ -280,13 +279,18 @@ export class Session extends Transform {
         this.pingTimer = setInterval(() => this.ping(), this.config.keepAliveInterval * 1000);
     }
 
-    public send(header: Header, data?: Buffer) {
+    public send(header: Header, data?: ArrayBuffer) {
         const buffers = [header.encode()];
         if (data) {
-            buffers.push(data);
+            buffers.push(new Uint8Array(data));
+        }
+        const toSend = new Uint8Array(buffers.reduce((acc, buf) => acc + buf.byteLength, 0));
+        let offset = 0;
+        for (const buf of buffers) {
+            toSend.set(new Uint8Array(buf), offset);
+            offset += buf.byteLength;
         }
 
-        const toSend = Buffer.concat(buffers);
         if (!this.writableEnded) {
             this.push(toSend);
         }

@@ -15,25 +15,27 @@ export class Header {
         this.length = length;
     }
 
-    public static parse(buffer: Buffer): Header {
-        const version = buffer.readUInt8(0);
-        const type = buffer.readUInt8(1);
-        const flags = buffer.readUInt16BE(2);
-        const streamID = buffer.readUInt32BE(4);
-        const length = buffer.readUInt32BE(8);
+    public static parse(buffer: Uint8Array): Header {
+        const view = new DataView(buffer.buffer);
+        const version = view.getUint8(0);
+        const type = view.getUint8(1);
+        const flags = view.getUint16(2);
+        const streamID = view.getUint32(4);
+        const length = view.getUint32(8);
 
         return new Header(version, type, flags, streamID, length);
     }
 
-    public encode(): Buffer {
-        var header = Buffer.alloc(Header.LENGTH);
+    public encode(): Uint8Array {
+        const buffer = new ArrayBuffer(Header.LENGTH);
+        const view = new DataView(buffer);
 
-        header.writeUInt8(this.version, 0);
-        header.writeUInt8(this.type, 1);
-        header.writeUInt16BE(this.flags, 2);
-        header.writeUInt32BE(this.streamID, 4);
-        header.writeUInt32BE(this.length, 8);
+        view.setUint8(0, this.version);
+        view.setUint8(1, this.type);
+        view.setUint16(2, this.flags);
+        view.setUint32(4, this.streamID);
+        view.setUint32(8, this.length);
 
-        return header;
+        return new Uint8Array(buffer);
     }
 }

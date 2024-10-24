@@ -1,4 +1,4 @@
-import {expect} from 'chai';
+import {expect, describe, it} from 'vitest';
 
 import {VERSION, TYPES, FLAGS} from '../src/constants';
 import {Header} from '../src/header';
@@ -9,7 +9,7 @@ describe('Header', () => {
     });
 
     it('can parse and re-encode an encoded header', () => {
-        const encodedHeader = Buffer.from(['00', '02', '00', '01', '00', '00', '00', '00', '00', '00', '00', '07']);
+        const encodedHeader = new Uint8Array([0x00, 0x02, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x07]);
         const header = Header.parse(encodedHeader);
 
         expect(header.version).to.equal(VERSION);
@@ -18,6 +18,7 @@ describe('Header', () => {
         expect(header.streamID).to.equal(0);
         expect(header.length).to.equal(7);
 
-        expect(Buffer.compare(header.encode(), encodedHeader)).to.equal(0);
+        const encodedBuffer = header.encode();
+        expect(encodedBuffer).to.deep.equal(encodedHeader);
     });
 });

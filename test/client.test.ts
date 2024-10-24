@@ -1,4 +1,4 @@
-import {expect} from 'chai';
+import {expect, describe, it} from 'vitest';
 
 import {Client} from '../src/client';
 import {Session} from '../src/session';

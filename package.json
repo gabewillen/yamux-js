@@ -8,24 +8,21 @@
         "type": "git"
     },
     "devDependencies": {
-        "@types/chai": "^4.3.11",
-        "@types/mocha": "^9.1.0",
-        "@types/node": "^14.11.8",
-        "@types/readable-stream": "^4.0.15",
-        "chai": "^4.4.1",
-        "mocha": "^9.2.2",
+        "@types/readable-stream": "^4.0.16",
         "prettier": "^2.1.2",
-        "ts-node": "^9.0.0",
-        "typescript": "^4.0.3"
+        "tsup": "^8.3.0",
+        "typescript": "^4.0.3",
+        "readable-stream": "^4.5.2",
+        "vitest": "^2.1.3"
     },
     "scripts": {
-        "build": "npm run clean && tsc",
+        "build": "tsup",
         "clean": "rm -rf lib",
         "format": "npx prettier --write src",
         "format:check": "npx prettier --check src",
         "prepare": "npm run build",
-        "test": "mocha --require ts-node/register --color --recursive --extension ts",
-        "test:watch": "npm test --watch"
+        "test": "vitest --pool=threads --poolOptions.threads.singleThread",
+        "bench": "vitest bench"
     },
     "keywords": [
         "yamux",
@@ -40,9 +37,5 @@
     ],
     "files": [
         "dist"
-    ],
-    "dependencies": {
-        "readable-stream": "^4.5.2",
-        "stream-browserify": "^3.0.0"
-    }
+    ]
 }

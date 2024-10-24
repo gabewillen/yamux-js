@@ -1,4 +1,4 @@
-import {expect} from 'chai';
+import {expect, describe, it} from 'vitest';
 
 import {VERSION, TYPES, FLAGS, STREAM_STATES, initialStreamWindow, GO_AWAY_ERRORS, ERRORS} from '../src/constants';
 

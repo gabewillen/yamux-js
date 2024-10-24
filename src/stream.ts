@@ -10,7 +10,7 @@ export class Stream extends Duplex {
     private id: number;
     private session: Session;
     private state: STREAM_STATES;
-    private recvBuf?: Buffer;
+    private recvBuf?: Uint8Array;
     private controlHdr?: Header;
 
     constructor(session: Session, id: number, state: STREAM_STATES) {
@@ -39,7 +39,7 @@ export class Stream extends Duplex {
         }
     }
 
-    public _write(chunk: any, encoding: BufferEncoding, cb: (error?: Error | null) => void): void {
+    public _write(chunk: any, encoding: string, cb: (error?: Error | null) => void): void {
         switch (this.state) {
             case STREAM_STATES.LocalClose:
             case STREAM_STATES.RemoteClose:
@@ -58,7 +58,7 @@ export class Stream extends Duplex {
                 const packetLength = Math.min(this.sendWindow, chunk.length);
                 const sendHdr = new Header(VERSION, TYPES.Data, flags, this.id, packetLength);
                 const buffers = [sendHdr.encode(), chunk];
-                const packet = Buffer.concat(buffers);
+                const packet = this.concatUint8Arrays(buffers);
 
                 const rest = packet.slice(packetLength + Header.LENGTH);
                 const packetToSend = packet.slice(0, packetLength + Header.LENGTH);
@@ -68,7 +68,7 @@ export class Stream extends Duplex {
                     this.emit('error', ERRORS.errConnectionWriteTimeout);
                     clearTimeout(writeTimeout);
                 }, this.session.config.connectionWriteTimeout * 1000);
-                this.session.push(packetToSend, encoding);
+                this.session.push(packetToSend);
                 clearTimeout(writeTimeout);
 
                 if (rest.length > 0) {
@@ -79,6 +79,17 @@ export class Stream extends Duplex {
         }
 
         return cb();
+    }
+
+    private concatUint8Arrays(arrays: Uint8Array[]): Uint8Array {
+        const totalLength = arrays.reduce((acc, value) => acc + value.length, 0);
+        const result = new Uint8Array(totalLength);
+        let offset = 0;
+        for (const array of arrays) {
+            result.set(array, offset);
+            offset += array.length;
+        }
+        return result;
     }
 
     private sendFlags() {
