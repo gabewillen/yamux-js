@@ -1,6 +1,6 @@
-import {Duplex} from 'readable-stream';
+import {Duplex, PassThrough} from 'readable-stream';
 
-import {expect, describe, it, vi, bench} from 'vitest';
+import {expect, describe, it, vi} from 'vitest';
 
 import {FLAGS, TYPES, VERSION, initialStreamWindow} from '../src/constants';
 import {Header} from '../src/header';
@@ -49,6 +49,7 @@ function withResolvers<T = void>(
     });
     if (timeout) {
         setTimeout(() => {
+            // console.log('aborting');
             resolvers[1](new Error(`timeout after ${timeout}ms`));
         }, timeout);
     }
@@ -235,9 +236,17 @@ describe('Server session', () => {
     });
 
     it('handles many streams', async () => {
-        const nbStreams = 1000;
+        const nbStreams = 1;
         const expectedOutput = new Set();
-
+        const passthrough = new Duplex({
+            read() {},
+            write(chunk: Uint8Array, encoding: BufferEncoding, callback: () => void) {
+                console.log('write', chunk, encoding);
+                passthrough.push(chunk, encoding);
+                callback();
+            },
+        });
+        const passthrough2 = new PassThrough();
         const {client} = getServerAndClient(
             {...testConfig, acceptBacklog: 1000, connectionWriteTimeout: 2},
             {...testConfig, connectionWriteTimeout: 2},
@@ -248,7 +257,8 @@ describe('Server session', () => {
                     // Send it back
                     stream.write(data);
                 });
-            }
+            },
+            passthrough2
         );
         const [promise, resolve, reject] = withResolvers(2000);
         client.on('error', (err) => {

@@ -1,4 +1,5 @@
 import { Duplex, Transform } from 'readable-stream';
+export { Duplex, PassThrough, Readable, Transform, Writable, finished, pipeline } from 'readable-stream';
 
 interface Config {
     acceptBacklog?: number;

@@ -2012,7 +2012,7 @@ var require_end_of_stream = __commonJS({
       PromisePrototypeThen(stream[kIsClosedPromise].promise, resolverFn, resolverFn);
       return nop;
     }
-    function finished(stream, opts) {
+    function finished2(stream, opts) {
       var _opts;
       let autoCleanup = false;
       if (opts === null) {
@@ -2036,7 +2036,7 @@ var require_end_of_stream = __commonJS({
       });
     }
     module2.exports = eos;
-    module2.exports.finished = finished;
+    module2.exports.finished = finished2;
   }
 });
 
@@ -2639,10 +2639,10 @@ var require_from = __commonJS({
     var { PromisePrototypeThen, SymbolAsyncIterator, SymbolIterator } = require_primordials();
     var { Buffer: Buffer2 } = require("buffer");
     var { ERR_INVALID_ARG_TYPE: ERR_INVALID_ARG_TYPE2, ERR_STREAM_NULL_VALUES } = require_errors().codes;
-    function from(Readable, iterable, opts) {
+    function from(Readable2, iterable, opts) {
       let iterator;
       if (typeof iterable === "string" || iterable instanceof Buffer2) {
-        return new Readable({
+        return new Readable2({
           objectMode: true,
           ...opts,
           read() {
@@ -2661,7 +2661,7 @@ var require_from = __commonJS({
       } else {
         throw new ERR_INVALID_ARG_TYPE2("iterable", ["Iterable"], iterable);
       }
-      const readable = new Readable({
+      const readable = new Readable2({
         objectMode: true,
         highWaterMark: 1,
         // TODO(ronag): What options should be allowed?
@@ -2745,8 +2745,8 @@ var require_readable = __commonJS({
       SymbolAsyncIterator,
       Symbol: Symbol2
     } = require_primordials();
-    module2.exports = Readable;
-    Readable.ReadableState = ReadableState;
+    module2.exports = Readable2;
+    Readable2.ReadableState = ReadableState;
     var { EventEmitter: EE } = require("events");
     var { Stream: Stream2, prependListener } = require_legacy();
     var { Buffer: Buffer2 } = require("buffer");
@@ -2773,8 +2773,8 @@ var require_readable = __commonJS({
     var kPaused = Symbol2("kPaused");
     var { StringDecoder } = require("string_decoder");
     var from = require_from();
-    ObjectSetPrototypeOf(Readable.prototype, Stream2.prototype);
-    ObjectSetPrototypeOf(Readable, Stream2);
+    ObjectSetPrototypeOf(Readable2.prototype, Stream2.prototype);
+    ObjectSetPrototypeOf(Readable2, Stream2);
     var nop = () => {
     };
     var { errorOrDestroy } = destroyImpl;
@@ -2869,8 +2869,8 @@ var require_readable = __commonJS({
         this.encoding = options.encoding;
       }
     }
-    function Readable(options) {
-      if (!(this instanceof Readable)) return new Readable(options);
+    function Readable2(options) {
+      if (!(this instanceof Readable2)) return new Readable2(options);
       const isDuplex = this instanceof require_duplex();
       this._readableState = new ReadableState(options, this, isDuplex);
       if (options) {
@@ -2886,15 +2886,15 @@ var require_readable = __commonJS({
         }
       });
     }
-    Readable.prototype.destroy = destroyImpl.destroy;
-    Readable.prototype._undestroy = destroyImpl.undestroy;
-    Readable.prototype._destroy = function(err, cb) {
+    Readable2.prototype.destroy = destroyImpl.destroy;
+    Readable2.prototype._undestroy = destroyImpl.undestroy;
+    Readable2.prototype._destroy = function(err, cb) {
       cb(err);
     };
-    Readable.prototype[EE.captureRejectionSymbol] = function(err) {
+    Readable2.prototype[EE.captureRejectionSymbol] = function(err) {
       this.destroy(err);
     };
-    Readable.prototype[SymbolAsyncDispose] = function() {
+    Readable2.prototype[SymbolAsyncDispose] = function() {
       let error;
       if (!this.destroyed) {
         error = this.readableEnded ? null : new AbortError();
@@ -2902,10 +2902,10 @@ var require_readable = __commonJS({
       }
       return new Promise2((resolve, reject) => eos(this, (err) => err && err !== error ? reject(err) : resolve(null)));
     };
-    Readable.prototype.push = function(chunk, encoding) {
+    Readable2.prototype.push = function(chunk, encoding) {
       return readableAddChunk(this, chunk, encoding, false);
     };
-    Readable.prototype.unshift = function(chunk, encoding) {
+    Readable2.prototype.unshift = function(chunk, encoding) {
       return readableAddChunk(this, chunk, encoding, true);
     };
     function readableAddChunk(stream, chunk, encoding, addToFront) {
@@ -2979,11 +2979,11 @@ var require_readable = __commonJS({
       }
       maybeReadMore(stream, state);
     }
-    Readable.prototype.isPaused = function() {
+    Readable2.prototype.isPaused = function() {
       const state = this._readableState;
       return state[kPaused] === true || state.flowing === false;
     };
-    Readable.prototype.setEncoding = function(enc) {
+    Readable2.prototype.setEncoding = function(enc) {
       const decoder = new StringDecoder(enc);
       this._readableState.decoder = decoder;
       this._readableState.encoding = this._readableState.decoder.encoding;
@@ -3022,7 +3022,7 @@ var require_readable = __commonJS({
       if (n <= state.length) return n;
       return state.ended ? state.length : 0;
     }
-    Readable.prototype.read = function(n) {
+    Readable2.prototype.read = function(n) {
       debug("read", n);
       if (n === void 0) {
         n = NaN;
@@ -3144,10 +3144,10 @@ var require_readable = __commonJS({
       }
       state.readingMore = false;
     }
-    Readable.prototype._read = function(n) {
+    Readable2.prototype._read = function(n) {
       throw new ERR_METHOD_NOT_IMPLEMENTED("_read()");
     };
-    Readable.prototype.pipe = function(dest, pipeOpts) {
+    Readable2.prototype.pipe = function(dest, pipeOpts) {
       const src = this;
       const state = this._readableState;
       if (state.pipes.length === 1) {
@@ -3272,7 +3272,7 @@ var require_readable = __commonJS({
         }
       };
     }
-    Readable.prototype.unpipe = function(dest) {
+    Readable2.prototype.unpipe = function(dest) {
       const state = this._readableState;
       const unpipeInfo = {
         hasUnpiped: false
@@ -3295,7 +3295,7 @@ var require_readable = __commonJS({
       dest.emit("unpipe", this, unpipeInfo);
       return this;
     };
-    Readable.prototype.on = function(ev, fn) {
+    Readable2.prototype.on = function(ev, fn) {
       const res = Stream2.prototype.on.call(this, ev, fn);
       const state = this._readableState;
       if (ev === "data") {
@@ -3316,16 +3316,16 @@ var require_readable = __commonJS({
       }
       return res;
     };
-    Readable.prototype.addListener = Readable.prototype.on;
-    Readable.prototype.removeListener = function(ev, fn) {
+    Readable2.prototype.addListener = Readable2.prototype.on;
+    Readable2.prototype.removeListener = function(ev, fn) {
       const res = Stream2.prototype.removeListener.call(this, ev, fn);
       if (ev === "readable") {
         process2.nextTick(updateReadableListening, this);
       }
       return res;
     };
-    Readable.prototype.off = Readable.prototype.removeListener;
-    Readable.prototype.removeAllListeners = function(ev) {
+    Readable2.prototype.off = Readable2.prototype.removeListener;
+    Readable2.prototype.removeAllListeners = function(ev) {
       const res = Stream2.prototype.removeAllListeners.apply(this, arguments);
       if (ev === "readable" || ev === void 0) {
         process2.nextTick(updateReadableListening, this);
@@ -3347,7 +3347,7 @@ var require_readable = __commonJS({
       debug("readable nexttick read 0");
       self.read(0);
     }
-    Readable.prototype.resume = function() {
+    Readable2.prototype.resume = function() {
       const state = this._readableState;
       if (!state.flowing) {
         debug("resume");
@@ -3373,7 +3373,7 @@ var require_readable = __commonJS({
       flow(stream);
       if (state.flowing && !state.reading) stream.read(0);
     }
-    Readable.prototype.pause = function() {
+    Readable2.prototype.pause = function() {
       debug("call pause flowing=%j", this._readableState.flowing);
       if (this._readableState.flowing !== false) {
         debug("pause");
@@ -3388,7 +3388,7 @@ var require_readable = __commonJS({
       debug("flow", state.flowing);
       while (state.flowing && stream.read() !== null) ;
     }
-    Readable.prototype.wrap = function(stream) {
+    Readable2.prototype.wrap = function(stream) {
       let paused = false;
       stream.on("data", (chunk) => {
         if (!this.push(chunk) && stream.pause) {
@@ -3423,10 +3423,10 @@ var require_readable = __commonJS({
       }
       return this;
     };
-    Readable.prototype[SymbolAsyncIterator] = function() {
+    Readable2.prototype[SymbolAsyncIterator] = function() {
       return streamToAsyncIterator(this);
     };
-    Readable.prototype.iterator = function(options) {
+    Readable2.prototype.iterator = function(options) {
       if (options !== void 0) {
         validateObject(options, "options");
       }
@@ -3434,7 +3434,7 @@ var require_readable = __commonJS({
     };
     function streamToAsyncIterator(stream, options) {
       if (typeof stream.read !== "function") {
-        stream = Readable.wrap(stream, {
+        stream = Readable2.wrap(stream, {
           objectMode: true
         });
       }
@@ -3490,7 +3490,7 @@ var require_readable = __commonJS({
         }
       }
     }
-    ObjectDefineProperties(Readable.prototype, {
+    ObjectDefineProperties(Readable2.prototype, {
       readable: {
         __proto__: null,
         get() {
@@ -3617,7 +3617,7 @@ var require_readable = __commonJS({
         }
       }
     });
-    Readable._fromList = fromList;
+    Readable2._fromList = fromList;
     function fromList(n, state) {
       if (state.length === 0) return null;
       let ret;
@@ -3664,23 +3664,23 @@ var require_readable = __commonJS({
         stream.end();
       }
     }
-    Readable.from = function(iterable, opts) {
-      return from(Readable, iterable, opts);
+    Readable2.from = function(iterable, opts) {
+      return from(Readable2, iterable, opts);
     };
     var webStreamsAdapters;
     function lazyWebStreams() {
       if (webStreamsAdapters === void 0) webStreamsAdapters = {};
       return webStreamsAdapters;
     }
-    Readable.fromWeb = function(readableStream, options) {
+    Readable2.fromWeb = function(readableStream, options) {
       return lazyWebStreams().newStreamReadableFromReadableStream(readableStream, options);
     };
-    Readable.toWeb = function(streamReadable, options) {
+    Readable2.toWeb = function(streamReadable, options) {
       return lazyWebStreams().newReadableStreamFromStreamReadable(streamReadable, options);
     };
-    Readable.wrap = function(src, options) {
+    Readable2.wrap = function(src, options) {
       var _ref, _src$readableObjectMo;
-      return new Readable({
+      return new Readable2({
         objectMode: (_ref = (_src$readableObjectMo = src.readableObjectMode) !== null && _src$readableObjectMo !== void 0 ? _src$readableObjectMo : src.objectMode) !== null && _ref !== void 0 ? _ref : true,
         ...options,
         destroy(err, callback) {
@@ -3708,8 +3708,8 @@ var require_writable = __commonJS({
       Symbol: Symbol2,
       SymbolHasInstance
     } = require_primordials();
-    module2.exports = Writable;
-    Writable.WritableState = WritableState;
+    module2.exports = Writable2;
+    Writable2.WritableState = WritableState;
     var { EventEmitter: EE } = require("events");
     var Stream2 = require_legacy().Stream;
     var { Buffer: Buffer2 } = require("buffer");
@@ -3728,8 +3728,8 @@ var require_writable = __commonJS({
       ERR_UNKNOWN_ENCODING
     } = require_errors().codes;
     var { errorOrDestroy } = destroyImpl;
-    ObjectSetPrototypeOf(Writable.prototype, Stream2.prototype);
-    ObjectSetPrototypeOf(Writable, Stream2);
+    ObjectSetPrototypeOf(Writable2.prototype, Stream2.prototype);
+    ObjectSetPrototypeOf(Writable2, Stream2);
     function nop() {
     }
     var kOnFinished = Symbol2("kOnFinished");
@@ -3783,9 +3783,9 @@ var require_writable = __commonJS({
         return this.buffered.length - this.bufferedIndex;
       }
     });
-    function Writable(options) {
+    function Writable2(options) {
       const isDuplex = this instanceof require_duplex();
-      if (!isDuplex && !FunctionPrototypeSymbolHasInstance(Writable, this)) return new Writable(options);
+      if (!isDuplex && !FunctionPrototypeSymbolHasInstance(Writable2, this)) return new Writable2(options);
       this._writableState = new WritableState(options, this, isDuplex);
       if (options) {
         if (typeof options.write === "function") this._write = options.write;
@@ -3804,15 +3804,15 @@ var require_writable = __commonJS({
         finishMaybe(this, state);
       });
     }
-    ObjectDefineProperty(Writable, SymbolHasInstance, {
+    ObjectDefineProperty(Writable2, SymbolHasInstance, {
       __proto__: null,
       value: function(object) {
         if (FunctionPrototypeSymbolHasInstance(this, object)) return true;
-        if (this !== Writable) return false;
+        if (this !== Writable2) return false;
         return object && object._writableState instanceof WritableState;
       }
     });
-    Writable.prototype.pipe = function() {
+    Writable2.prototype.pipe = function() {
       errorOrDestroy(this, new ERR_STREAM_CANNOT_PIPE());
     };
     function _write(stream, chunk, encoding, cb) {
@@ -3856,20 +3856,20 @@ var require_writable = __commonJS({
       state.pendingcb++;
       return writeOrBuffer(stream, state, chunk, encoding, cb);
     }
-    Writable.prototype.write = function(chunk, encoding, cb) {
+    Writable2.prototype.write = function(chunk, encoding, cb) {
       return _write(this, chunk, encoding, cb) === true;
     };
-    Writable.prototype.cork = function() {
+    Writable2.prototype.cork = function() {
       this._writableState.corked++;
     };
-    Writable.prototype.uncork = function() {
+    Writable2.prototype.uncork = function() {
       const state = this._writableState;
       if (state.corked) {
         state.corked--;
         if (!state.writing) clearBuffer(this, state);
       }
     };
-    Writable.prototype.setDefaultEncoding = function setDefaultEncoding(encoding) {
+    Writable2.prototype.setDefaultEncoding = function setDefaultEncoding(encoding) {
       if (typeof encoding === "string") encoding = StringPrototypeToLowerCase(encoding);
       if (!Buffer2.isEncoding(encoding)) throw new ERR_UNKNOWN_ENCODING(encoding);
       this._writableState.defaultEncoding = encoding;
@@ -4045,7 +4045,7 @@ var require_writable = __commonJS({
       }
       state.bufferProcessing = false;
     }
-    Writable.prototype._write = function(chunk, encoding, cb) {
+    Writable2.prototype._write = function(chunk, encoding, cb) {
       if (this._writev) {
         this._writev(
           [
@@ -4060,8 +4060,8 @@ var require_writable = __commonJS({
         throw new ERR_METHOD_NOT_IMPLEMENTED("_write()");
       }
     };
-    Writable.prototype._writev = null;
-    Writable.prototype.end = function(chunk, encoding, cb) {
+    Writable2.prototype._writev = null;
+    Writable2.prototype.end = function(chunk, encoding, cb) {
       const state = this._writableState;
       if (typeof chunk === "function") {
         cb = chunk;
@@ -4188,7 +4188,7 @@ var require_writable = __commonJS({
         }
       }
     }
-    ObjectDefineProperties(Writable.prototype, {
+    ObjectDefineProperties(Writable2.prototype, {
       closed: {
         __proto__: null,
         get() {
@@ -4284,7 +4284,7 @@ var require_writable = __commonJS({
       }
     });
     var destroy = destroyImpl.destroy;
-    Writable.prototype.destroy = function(err, cb) {
+    Writable2.prototype.destroy = function(err, cb) {
       const state = this._writableState;
       if (!state.destroyed && (state.bufferedIndex < state.buffered.length || state[kOnFinished].length)) {
         process2.nextTick(errorBuffer, state);
@@ -4292,11 +4292,11 @@ var require_writable = __commonJS({
       destroy.call(this, err, cb);
       return this;
     };
-    Writable.prototype._undestroy = destroyImpl.undestroy;
-    Writable.prototype._destroy = function(err, cb) {
+    Writable2.prototype._undestroy = destroyImpl.undestroy;
+    Writable2.prototype._destroy = function(err, cb) {
       cb(err);
     };
-    Writable.prototype[EE.captureRejectionSymbol] = function(err) {
+    Writable2.prototype[EE.captureRejectionSymbol] = function(err) {
       this.destroy(err);
     };
     var webStreamsAdapters;
@@ -4304,10 +4304,10 @@ var require_writable = __commonJS({
       if (webStreamsAdapters === void 0) webStreamsAdapters = {};
       return webStreamsAdapters;
     }
-    Writable.fromWeb = function(writableStream, options) {
+    Writable2.fromWeb = function(writableStream, options) {
       return lazyWebStreams().newStreamWritableFromWritableStream(writableStream, options);
     };
-    Writable.toWeb = function(streamWritable) {
+    Writable2.toWeb = function(streamWritable) {
       return lazyWebStreams().newWritableStreamFromStreamWritable(streamWritable);
     };
   }
@@ -4336,9 +4336,9 @@ var require_duplexify = __commonJS({
       codes: { ERR_INVALID_ARG_TYPE: ERR_INVALID_ARG_TYPE2, ERR_INVALID_RETURN_VALUE }
     } = require_errors();
     var { destroyer } = require_destroy();
-    var Duplex3 = require_duplex();
-    var Readable = require_readable();
-    var Writable = require_writable();
+    var Duplex4 = require_duplex();
+    var Readable2 = require_readable();
+    var Writable2 = require_writable();
     var { createDeferredPromise } = require_util();
     var from = require_from();
     var Blob = globalThis.Blob || bufferModule.Blob;
@@ -4349,7 +4349,7 @@ var require_duplexify = __commonJS({
     };
     var AbortController = globalThis.AbortController || require_abort_controller().AbortController;
     var { FunctionPrototypeCall } = require_primordials();
-    var Duplexify = class extends Duplex3 {
+    var Duplexify = class extends Duplex4 {
       constructor(options) {
         super(options);
         if ((options === null || options === void 0 ? void 0 : options.readable) === false) {
@@ -4387,12 +4387,12 @@ var require_duplexify = __commonJS({
       }
       if (isReadableStream(body)) {
         return _duplexify({
-          readable: Readable.fromWeb(body)
+          readable: Readable2.fromWeb(body)
         });
       }
       if (isWritableStream(body)) {
         return _duplexify({
-          writable: Writable.fromWeb(body)
+          writable: Writable2.fromWeb(body)
         });
       }
       if (typeof body === "function") {
@@ -4551,7 +4551,7 @@ var require_duplexify = __commonJS({
       };
     }
     function _duplexify(pair) {
-      const r = pair.readable && typeof pair.readable.read !== "function" ? Readable.wrap(pair.readable) : pair.readable;
+      const r = pair.readable && typeof pair.readable.read !== "function" ? Readable2.wrap(pair.readable) : pair.readable;
       const w = pair.writable;
       let readable = !!isReadable(r);
       let writable = !!isWritable(w);
@@ -4671,22 +4671,22 @@ var require_duplex = __commonJS({
       ObjectKeys,
       ObjectSetPrototypeOf
     } = require_primordials();
-    module2.exports = Duplex3;
-    var Readable = require_readable();
-    var Writable = require_writable();
-    ObjectSetPrototypeOf(Duplex3.prototype, Readable.prototype);
-    ObjectSetPrototypeOf(Duplex3, Readable);
+    module2.exports = Duplex4;
+    var Readable2 = require_readable();
+    var Writable2 = require_writable();
+    ObjectSetPrototypeOf(Duplex4.prototype, Readable2.prototype);
+    ObjectSetPrototypeOf(Duplex4, Readable2);
     {
-      const keys = ObjectKeys(Writable.prototype);
+      const keys = ObjectKeys(Writable2.prototype);
       for (let i = 0; i < keys.length; i++) {
         const method = keys[i];
-        if (!Duplex3.prototype[method]) Duplex3.prototype[method] = Writable.prototype[method];
+        if (!Duplex4.prototype[method]) Duplex4.prototype[method] = Writable2.prototype[method];
       }
     }
-    function Duplex3(options) {
-      if (!(this instanceof Duplex3)) return new Duplex3(options);
-      Readable.call(this, options);
-      Writable.call(this, options);
+    function Duplex4(options) {
+      if (!(this instanceof Duplex4)) return new Duplex4(options);
+      Readable2.call(this, options);
+      Writable2.call(this, options);
       if (options) {
         this.allowHalfOpen = options.allowHalfOpen !== false;
         if (options.readable === false) {
@@ -4704,42 +4704,42 @@ var require_duplex = __commonJS({
         this.allowHalfOpen = true;
       }
     }
-    ObjectDefineProperties(Duplex3.prototype, {
+    ObjectDefineProperties(Duplex4.prototype, {
       writable: {
         __proto__: null,
-        ...ObjectGetOwnPropertyDescriptor(Writable.prototype, "writable")
+        ...ObjectGetOwnPropertyDescriptor(Writable2.prototype, "writable")
       },
       writableHighWaterMark: {
         __proto__: null,
-        ...ObjectGetOwnPropertyDescriptor(Writable.prototype, "writableHighWaterMark")
+        ...ObjectGetOwnPropertyDescriptor(Writable2.prototype, "writableHighWaterMark")
       },
       writableObjectMode: {
         __proto__: null,
-        ...ObjectGetOwnPropertyDescriptor(Writable.prototype, "writableObjectMode")
+        ...ObjectGetOwnPropertyDescriptor(Writable2.prototype, "writableObjectMode")
       },
       writableBuffer: {
         __proto__: null,
-        ...ObjectGetOwnPropertyDescriptor(Writable.prototype, "writableBuffer")
+        ...ObjectGetOwnPropertyDescriptor(Writable2.prototype, "writableBuffer")
       },
       writableLength: {
         __proto__: null,
-        ...ObjectGetOwnPropertyDescriptor(Writable.prototype, "writableLength")
+        ...ObjectGetOwnPropertyDescriptor(Writable2.prototype, "writableLength")
       },
       writableFinished: {
         __proto__: null,
-        ...ObjectGetOwnPropertyDescriptor(Writable.prototype, "writableFinished")
+        ...ObjectGetOwnPropertyDescriptor(Writable2.prototype, "writableFinished")
       },
       writableCorked: {
         __proto__: null,
-        ...ObjectGetOwnPropertyDescriptor(Writable.prototype, "writableCorked")
+        ...ObjectGetOwnPropertyDescriptor(Writable2.prototype, "writableCorked")
       },
       writableEnded: {
         __proto__: null,
-        ...ObjectGetOwnPropertyDescriptor(Writable.prototype, "writableEnded")
+        ...ObjectGetOwnPropertyDescriptor(Writable2.prototype, "writableEnded")
       },
       writableNeedDrain: {
         __proto__: null,
-        ...ObjectGetOwnPropertyDescriptor(Writable.prototype, "writableNeedDrain")
+        ...ObjectGetOwnPropertyDescriptor(Writable2.prototype, "writableNeedDrain")
       },
       destroyed: {
         __proto__: null,
@@ -4762,14 +4762,14 @@ var require_duplex = __commonJS({
       if (webStreamsAdapters === void 0) webStreamsAdapters = {};
       return webStreamsAdapters;
     }
-    Duplex3.fromWeb = function(pair, options) {
+    Duplex4.fromWeb = function(pair, options) {
       return lazyWebStreams().newStreamDuplexFromReadableWritablePair(pair, options);
     };
-    Duplex3.toWeb = function(duplex) {
+    Duplex4.toWeb = function(duplex) {
       return lazyWebStreams().newReadableWritablePairFromDuplex(duplex);
     };
     var duplexify;
-    Duplex3.from = function(body) {
+    Duplex4.from = function(body) {
       if (!duplexify) {
         duplexify = require_duplexify();
       }
@@ -4783,15 +4783,15 @@ var require_transform = __commonJS({
   "node_modules/readable-stream/lib/internal/streams/transform.js"(exports2, module2) {
     "use strict";
     var { ObjectSetPrototypeOf, Symbol: Symbol2 } = require_primordials();
-    module2.exports = Transform2;
+    module2.exports = Transform3;
     var { ERR_METHOD_NOT_IMPLEMENTED } = require_errors().codes;
-    var Duplex3 = require_duplex();
+    var Duplex4 = require_duplex();
     var { getHighWaterMark } = require_state();
-    ObjectSetPrototypeOf(Transform2.prototype, Duplex3.prototype);
-    ObjectSetPrototypeOf(Transform2, Duplex3);
+    ObjectSetPrototypeOf(Transform3.prototype, Duplex4.prototype);
+    ObjectSetPrototypeOf(Transform3, Duplex4);
     var kCallback = Symbol2("kCallback");
-    function Transform2(options) {
-      if (!(this instanceof Transform2)) return new Transform2(options);
+    function Transform3(options) {
+      if (!(this instanceof Transform3)) return new Transform3(options);
       const readableHighWaterMark = options ? getHighWaterMark(this, options, "readableHighWaterMark", true) : null;
       if (readableHighWaterMark === 0) {
         options = {
@@ -4805,7 +4805,7 @@ var require_transform = __commonJS({
           writableHighWaterMark: options.writableHighWaterMark || 0
         };
       }
-      Duplex3.call(this, options);
+      Duplex4.call(this, options);
       this._readableState.sync = false;
       this[kCallback] = null;
       if (options) {
@@ -4845,11 +4845,11 @@ var require_transform = __commonJS({
         final.call(this);
       }
     }
-    Transform2.prototype._final = final;
-    Transform2.prototype._transform = function(chunk, encoding, callback) {
+    Transform3.prototype._final = final;
+    Transform3.prototype._transform = function(chunk, encoding, callback) {
       throw new ERR_METHOD_NOT_IMPLEMENTED("_transform()");
     };
-    Transform2.prototype._write = function(chunk, encoding, callback) {
+    Transform3.prototype._write = function(chunk, encoding, callback) {
       const rState = this._readableState;
       const wState = this._writableState;
       const length = rState.length;
@@ -4870,7 +4870,7 @@ var require_transform = __commonJS({
         }
       });
     };
-    Transform2.prototype._read = function() {
+    Transform3.prototype._read = function() {
       if (this[kCallback]) {
         const callback = this[kCallback];
         this[kCallback] = null;
@@ -4885,15 +4885,15 @@ var require_passthrough = __commonJS({
   "node_modules/readable-stream/lib/internal/streams/passthrough.js"(exports2, module2) {
     "use strict";
     var { ObjectSetPrototypeOf } = require_primordials();
-    module2.exports = PassThrough;
-    var Transform2 = require_transform();
-    ObjectSetPrototypeOf(PassThrough.prototype, Transform2.prototype);
-    ObjectSetPrototypeOf(PassThrough, Transform2);
-    function PassThrough(options) {
-      if (!(this instanceof PassThrough)) return new PassThrough(options);
-      Transform2.call(this, options);
+    module2.exports = PassThrough2;
+    var Transform3 = require_transform();
+    ObjectSetPrototypeOf(PassThrough2.prototype, Transform3.prototype);
+    ObjectSetPrototypeOf(PassThrough2, Transform3);
+    function PassThrough2(options) {
+      if (!(this instanceof PassThrough2)) return new PassThrough2(options);
+      Transform3.call(this, options);
     }
-    PassThrough.prototype._transform = function(chunk, encoding, cb) {
+    PassThrough2.prototype._transform = function(chunk, encoding, cb) {
       cb(null, chunk);
     };
   }
@@ -4908,7 +4908,7 @@ var require_pipeline = __commonJS({
     var eos = require_end_of_stream();
     var { once } = require_util();
     var destroyImpl = require_destroy();
-    var Duplex3 = require_duplex();
+    var Duplex4 = require_duplex();
     var {
       aggregateTwoErrors,
       codes: {
@@ -4932,13 +4932,13 @@ var require_pipeline = __commonJS({
       isReadableFinished
     } = require_utils();
     var AbortController = globalThis.AbortController || require_abort_controller().AbortController;
-    var PassThrough;
-    var Readable;
+    var PassThrough2;
+    var Readable2;
     var addAbortListener;
     function destroyer(stream, reading, writing) {
-      let finished = false;
+      let finished2 = false;
       stream.on("close", () => {
-        finished = true;
+        finished2 = true;
       });
       const cleanup = eos(
         stream,
@@ -4947,13 +4947,13 @@ var require_pipeline = __commonJS({
           writable: writing
         },
         (err) => {
-          finished = !err;
+          finished2 = !err;
         }
       );
       return {
         destroy: (err) => {
-          if (finished) return;
-          finished = true;
+          if (finished2) return;
+          finished2 = true;
           destroyImpl.destroyer(stream, err || new ERR_STREAM_DESTROYED("pipe"));
         },
         cleanup
@@ -4972,10 +4972,10 @@ var require_pipeline = __commonJS({
       throw new ERR_INVALID_ARG_TYPE2("val", ["Readable", "Iterable", "AsyncIterable"], val);
     }
     async function* fromReadable(val) {
-      if (!Readable) {
-        Readable = require_readable();
+      if (!Readable2) {
+        Readable2 = require_readable();
       }
-      yield* Readable.prototype[SymbolAsyncIterator].call(val);
+      yield* Readable2.prototype[SymbolAsyncIterator].call(val);
     }
     async function pumpToNode(iterable, writable, finish, { end }) {
       let error;
@@ -5057,7 +5057,7 @@ var require_pipeline = __commonJS({
         }
       }
     }
-    function pipeline(...streams) {
+    function pipeline2(...streams) {
       return pipelineImpl(streams, once(popCallback(streams)));
     }
     function pipelineImpl(streams, callback, opts) {
@@ -5147,7 +5147,7 @@ var require_pipeline = __commonJS({
           } else if (isIterable(stream) || isReadableNodeStream(stream) || isTransformStream(stream)) {
             ret = stream;
           } else {
-            ret = Duplex3.from(stream);
+            ret = Duplex4.from(stream);
           }
         } else if (typeof stream === "function") {
           if (isTransformStream(ret)) {
@@ -5165,10 +5165,10 @@ var require_pipeline = __commonJS({
             }
           } else {
             var _ret2;
-            if (!PassThrough) {
-              PassThrough = require_passthrough();
+            if (!PassThrough2) {
+              PassThrough2 = require_passthrough();
             }
-            const pt = new PassThrough({
+            const pt = new PassThrough2({
               objectMode: true
             });
             const then = (_ret2 = ret) === null || _ret2 === void 0 ? void 0 : _ret2.then;
@@ -5265,7 +5265,7 @@ var require_pipeline = __commonJS({
           }
           ret = stream;
         } else {
-          ret = Duplex3.from(stream);
+          ret = Duplex4.from(stream);
         }
       }
       if (signal !== null && signal !== void 0 && signal.aborted || outerSignal !== null && outerSignal !== void 0 && outerSignal.aborted) {
@@ -5323,7 +5323,7 @@ var require_pipeline = __commonJS({
     }
     module2.exports = {
       pipelineImpl,
-      pipeline
+      pipeline: pipeline2
     };
   }
 });
@@ -5332,8 +5332,8 @@ var require_pipeline = __commonJS({
 var require_compose = __commonJS({
   "node_modules/readable-stream/lib/internal/streams/compose.js"(exports2, module2) {
     "use strict";
-    var { pipeline } = require_pipeline();
-    var Duplex3 = require_duplex();
+    var { pipeline: pipeline2 } = require_pipeline();
+    var Duplex4 = require_duplex();
     var { destroyer } = require_destroy();
     var {
       isNodeStream,
@@ -5354,15 +5354,15 @@ var require_compose = __commonJS({
         throw new ERR_MISSING_ARGS("streams");
       }
       if (streams.length === 1) {
-        return Duplex3.from(streams[0]);
+        return Duplex4.from(streams[0]);
       }
       const orgStreams = [...streams];
       if (typeof streams[0] === "function") {
-        streams[0] = Duplex3.from(streams[0]);
+        streams[0] = Duplex4.from(streams[0]);
       }
       if (typeof streams[streams.length - 1] === "function") {
         const idx = streams.length - 1;
-        streams[idx] = Duplex3.from(streams[idx]);
+        streams[idx] = Duplex4.from(streams[idx]);
       }
       for (let n = 0; n < streams.length; ++n) {
         if (!isNodeStream(streams[n]) && !isWebStream(streams[n])) {
@@ -5392,10 +5392,10 @@ var require_compose = __commonJS({
         }
       }
       const head = streams[0];
-      const tail = pipeline(streams, onfinished);
+      const tail = pipeline2(streams, onfinished);
       const writable = !!(isWritable(head) || isWritableStream(head) || isTransformStream(head));
       const readable = !!(isReadable(tail) || isReadableStream(tail) || isTransformStream(tail));
-      d = new Duplex3({
+      d = new Duplex4({
         // TODO (ronag): highWaterMark?
         writableObjectMode: !!(head !== null && head !== void 0 && head.writableObjectMode),
         readableObjectMode: !!(tail !== null && tail !== void 0 && tail.readableObjectMode),
@@ -5533,7 +5533,7 @@ var require_operators = __commonJS({
     var { validateAbortSignal, validateInteger, validateObject } = require_validators();
     var kWeakHandler = require_primordials().Symbol("kWeak");
     var kResistStopPropagation = require_primordials().Symbol("kResistStopPropagation");
-    var { finished } = require_end_of_stream();
+    var { finished: finished2 } = require_end_of_stream();
     var staticCompose = require_compose();
     var { addAbortSignalNoValidate } = require_add_abort_signal();
     var { isWritable, isNodeStream } = require_utils();
@@ -5780,7 +5780,7 @@ var require_operators = __commonJS({
         });
         this.once("error", () => {
         });
-        await finished(this.destroy(err));
+        await finished2(this.destroy(err));
         throw err;
       }
       const ac = new AbortController();
@@ -5933,9 +5933,9 @@ var require_promises = __commonJS({
     var { ArrayPrototypePop, Promise: Promise2 } = require_primordials();
     var { isIterable, isNodeStream, isWebStream } = require_utils();
     var { pipelineImpl: pl } = require_pipeline();
-    var { finished } = require_end_of_stream();
+    var { finished: finished2 } = require_end_of_stream();
     require_stream();
-    function pipeline(...streams) {
+    function pipeline2(...streams) {
       return new Promise2((resolve, reject) => {
         let signal;
         let end;
@@ -5962,8 +5962,8 @@ var require_promises = __commonJS({
       });
     }
     module2.exports = {
-      finished,
-      pipeline
+      finished: finished2,
+      pipeline: pipeline2
     };
   }
 });
@@ -5983,7 +5983,7 @@ var require_stream = __commonJS({
     } = require_errors();
     var compose = require_compose();
     var { setDefaultHighWaterMark, getDefaultHighWaterMark } = require_state();
-    var { pipeline } = require_pipeline();
+    var { pipeline: pipeline2 } = require_pipeline();
     var { destroyer } = require_destroy();
     var eos = require_end_of_stream();
     var promises = require_promises();
@@ -6051,7 +6051,7 @@ var require_stream = __commonJS({
     Stream2.Duplex = require_duplex();
     Stream2.Transform = require_transform();
     Stream2.PassThrough = require_passthrough();
-    Stream2.pipeline = pipeline;
+    Stream2.pipeline = pipeline2;
     var { addAbortSignal } = require_add_abort_signal();
     Stream2.addAbortSignal = addAbortSignal;
     Stream2.finished = eos;
@@ -6067,7 +6067,7 @@ var require_stream = __commonJS({
         return promises;
       }
     });
-    ObjectDefineProperty(pipeline, customPromisify, {
+    ObjectDefineProperty(pipeline2, customPromisify, {
       __proto__: null,
       enumerable: true,
       get() {
@@ -6159,9 +6159,16 @@ var require_ours = __commonJS({
 var src_exports = {};
 __export(src_exports, {
   Client: () => Client,
+  Duplex: () => import_readable_stream3.Duplex,
+  PassThrough: () => import_readable_stream3.PassThrough,
+  Readable: () => import_readable_stream3.Readable,
   Server: () => Server,
   Session: () => Session,
-  Stream: () => Stream
+  Stream: () => Stream,
+  Transform: () => import_readable_stream3.Transform,
+  Writable: () => import_readable_stream3.Writable,
+  finished: () => import_readable_stream3.finished,
+  pipeline: () => import_readable_stream3.pipeline
 });
 module.exports = __toCommonJS(src_exports);
 
@@ -6689,10 +6696,20 @@ var Server = class extends Session {
     super(false, config, onStream);
   }
 };
+
+// src/index.ts
+var import_readable_stream3 = __toESM(require_ours());
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   Client,
+  Duplex,
+  PassThrough,
+  Readable,
   Server,
   Session,
-  Stream
+  Stream,
+  Transform,
+  Writable,
+  finished,
+  pipeline
 });
